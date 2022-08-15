@@ -113,6 +113,9 @@ export class CustomTreeRepository<E> extends Repository<E> {
         let parent = await this.manager
           .getTreeRepository(Tree)
           .findAncestorsTree(node);
+
+        console.log(parent);
+
         entity.parent = await this.getNodesData(parent.parent, 'parent');
 
         return entity;
@@ -147,7 +150,7 @@ export class CustomTreeRepository<E> extends Repository<E> {
         let children = await this.manager
           .getTreeRepository(Tree)
           .findDescendantsTree(node);
-        entity.children = await this.getNodesData(children.child, 'child');
+        entity.child = await this.getNodesData(children.child, 'child');
         
         return entity;
       }),
@@ -156,6 +159,12 @@ export class CustomTreeRepository<E> extends Repository<E> {
     return entities;
   }
 
+  /**
+   * Recursive function
+   * @param nodes nodes with tree
+   * @param direction what would you want to find? parent? child?
+   * @returns ObjectLiteral
+   */
   private async getNodesData(
     nodes: Tree | Tree[],
     direction: 'parent' | 'child',
@@ -169,6 +178,11 @@ export class CustomTreeRepository<E> extends Repository<E> {
         }),
       );
     } else {
+      if(nodes[direction] != null){
+        let data = await this.getNodeData(nodes)
+        data[direction] = await this.getNodesData(nodes[direction], direction)
+        return data
+      }
       return this.getNodeData(nodes);
     }
   }
