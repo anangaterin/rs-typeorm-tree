@@ -25,6 +25,10 @@ export class AmenityProvider {
     }
 
     async test(param: GetAmenityDTO){
-        return this.amenityRepository.findParent()
+        return this.amenityRepository.findParent({
+            where: {
+                id: param.id
+            }
+        })
     }
 }
