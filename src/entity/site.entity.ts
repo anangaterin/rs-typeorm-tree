@@ -1,16 +1,21 @@
-import { Column, Entity } from "typeorm";
+import { Children } from "src/decorators/decorator";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import { Building } from "./building.entity";
 
 @Entity()
 export class Site{
-    @Column({
-        type: "uuid",
-        primary: true
-    })
-    id: String
+    @PrimaryGeneratedColumn("uuid")
+    id: string
 
     @Column()
-    name: String
+    name: string
 
     @Column()
-    address: String
+    address: string
+
+    @Children()
+    children: any[]
+
+    type: string = this.constructor.name
+
 }

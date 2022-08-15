@@ -1,13 +1,24 @@
-import { Column, Entity } from "typeorm";
+
+import { Children, Parent } from "src/decorators/decorator";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import { Amenity } from "./amenity.entity";
+import { Building } from "./building.entity";
+import { Lot } from "./lot.entity";
 
 @Entity()
 export class Floor{
-    @Column({
-        type: 'uuid',
-        primary: true
-    })
+    @PrimaryGeneratedColumn("uuid")
     id: string
 
     @Column()
-    floorNumber: number
+    number: number
+
+    @Children()
+    children: any[]
+
+    @Parent()
+    parent: any
+
+    type: string = this.constructor.name
+
 }
