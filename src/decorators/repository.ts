@@ -4,6 +4,7 @@ import {
   DataSource,
   DeepPartial,
   FindManyOptions,
+  FindTreeOptions,
   ObjectLiteral,
   Repository,
   SaveOptions,
@@ -88,6 +89,11 @@ export class CustomTreeRepository<E> extends Repository<E> {
     return this.getMetadataKey();
   }
 
+  async findRoot(options:FindTreeOptions){
+    let data = await this.manager.getTreeRepository(Tree).findRoots(options)
+    return this.getNodesData(data);
+  }
+
   async findParent(options?: FindManyOptions<E>): Promise<E[]> {
     if (!this.isTree()) {
       throw new Error('Model does not have tree property');
@@ -165,7 +171,7 @@ export class CustomTreeRepository<E> extends Repository<E> {
    */
   private async getNodesData(
     nodes: Tree | Tree[],
-    direction: 'parent' | 'child',
+    direction: 'parent' | 'child' | null = null,
   ) {
     if (Array.isArray(nodes)) {
       return Promise.all(
