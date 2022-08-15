@@ -1,6 +1,7 @@
 export class CreateLotDTO{
     number: number
-    floorId: string
+    parentId: string
+    parentType: string
 }
 
 export class GetLotParamDTO{

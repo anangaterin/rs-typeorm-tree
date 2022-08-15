@@ -1,6 +1,7 @@
 export class CreateAmenityDTO{
     name: string
-    floorId: string
+    parentId: string
+    parentType: string
 }
 
 export class GetAmenityDTO{

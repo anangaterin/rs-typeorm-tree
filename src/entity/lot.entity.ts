@@ -1,6 +1,5 @@
 import { Children, Parent } from "src/decorators/decorator";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, Tree } from "typeorm";
-import { Floor } from "./floor.entity";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Lot{

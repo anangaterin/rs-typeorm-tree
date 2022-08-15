@@ -1,8 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { CreateSiteDTO } from "src/dto/site.dto";
+import { CreateSiteDTO, GetSiteDTO } from "src/dto/site.dto";
 import { Site } from "src/entity/site.entity";
-import { DeepPartial, Repository, SaveOptions, TreeRepository} from "typeorm";
 import { SiteRepository } from "./site.repository";
 
 @Injectable()
@@ -22,8 +20,14 @@ export class SiteProvider{
     }
 
     async tree(){
-        return this.siteRepository.find({
-            relations:['*']
+        return this.siteRepository.find()
+    }
+
+    async get(data: GetSiteDTO){
+        return this.siteRepository.findChildren({
+            where:{
+                id: data.id
+            }
         })
     }
 

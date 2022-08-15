@@ -8,7 +8,6 @@ export class LotController{
 
     constructor(private provider: LotProvider){}
 
-
     @Get(':id')
     async get(@Param() param:GetLotParamDTO){
         return this.provider.get(param)
